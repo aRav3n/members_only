@@ -1,29 +1,5 @@
 const pool = require("./pool");
-require("dotenv").config();
-
-function verifyEnvVariablesOk() {
-  let allGood = true;
-  let string = "";
-  if (!process.env.ROLE_NAME) {
-    allGood = false;
-    string += "ROLE_NAME missing, ";
-  }
-  if (!process.env.DATABASE_NAME) {
-    allGood = false;
-    string += "DATABASE_NAME missing, ";
-  }
-  if (!process.env.ROLE_PASSWORD) {
-    allGood = false;
-    string += "ROLE_PASSWORD missing, ";
-  }
-  if (string.length > 0) {
-    string.length = string.length - 2;
-  }
-  if (!allGood) {
-    return console.error(string);
-  }
-  console.log("...all env variables check out!");
-}
+const verifyEnvVariablesOk = require("./verifyEnvVariables");
 
 const SQL = `
 CREATE TABLE IF NOT EXISTS users (
@@ -33,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
   username VARCHAR ( 255 ),
   email VARCHAR ( 255 ),
   hash VARCHAR ( 512 ),
-  member BOOLEAN,
+  member BOOLEAN DEFAULT TRUE,
   added TIMESTAMP DEFAULT NOW()
 );
 
@@ -54,4 +30,6 @@ async function main() {
   console.log("...tables built");
 }
 
-main();
+(async () => {
+  await main();
+})();
