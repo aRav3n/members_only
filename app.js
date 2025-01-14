@@ -1,6 +1,6 @@
 // Folders: controllers routes views db public
 // npm init -y
-// npm install express ejs express-validator dotenv pg
+// npm install express ejs express-validator dotenv pg bcryptjs
 
 const express = require("express");
 const app = express();
