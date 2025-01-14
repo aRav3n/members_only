@@ -1,0 +1,16 @@
+users
+  id
+  firstname (varchar)
+  lastname (varchar)
+  username (varchar)
+  email (varchar)
+  hash (varchar)
+  member (boolean)
+
+posts
+  id
+  title (varchar)
+  timestamp (varchar)
+  body (varchar)
+  user_id (foreign key)
+
