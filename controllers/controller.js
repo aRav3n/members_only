@@ -42,16 +42,36 @@ const validateUser = [
 ];
 
 async function indexGet(req, res) {
-  // console.log(req.session);
-  // console.log(req.user);
+  let user = null;
+  let firstname = null;
+  let username = null;
+  if (req.user) {
+    user = req.user;
+    firstname = user.firstname;
+    username = user.username;
+  }
   res.render("index", {
     title: "Home",
+    user: user,
+    firstname: firstname,
+    username: username,
   });
 }
 
 async function loginGet(req, res) {
+  let user = null;
+  let firstname = null;
+  let username = null;
+  if (req.user) {
+    user = req.user;
+    firstname = user.firstname;
+    username = user.username;
+  }
   res.render("login", {
     title: "Log in",
+    user: user,
+    firstname: firstname,
+    username: username,
   });
 }
 
@@ -72,20 +92,52 @@ async function loginPost(req, res, next) {
   })(req, res, next);
 }
 
+async function logoutPost(req, res, next) {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+}
+
 async function signUpGet(req, res) {
+  let user = null;
+  let firstname = null;
+  let username = null;
+  if (req.user) {
+    user = req.user;
+    firstname = user.firstname;
+    username = user.username;
+  }
   res.render("signUpForm", {
     title: "Sign Up",
+    user: user,
+    firstname: firstname,
+    username: username,
   });
 }
 
 const signUpPost = [
   validateUser,
   async (req, res) => {
+    let user = null;
+    let firstname = null;
+    let username = null;
+    if (req.user) {
+      user = req.user;
+      firstname = user.firstname;
+      username = user.username;
+    }
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).render("signUpForm", {
         title: "Sign Up",
         errors: errors.array(),
+        user: user,
+        firstname: firstname,
+        username: username,
       });
     }
     function hashIfPasswordsMatch(password, confirmPassword) {
@@ -111,6 +163,9 @@ const signUpPost = [
 
     res.render("signUpForm", {
       title: "Sign Up",
+      user: user,
+      firstname: firstname,
+      username: username,
     });
   },
 ];
@@ -119,6 +174,7 @@ module.exports = {
   indexGet,
   loginGet,
   loginPost,
+  logoutPost,
   signUpGet,
   signUpPost,
 };
