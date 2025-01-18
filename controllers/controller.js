@@ -1,13 +1,11 @@
 const db = require("../db/queries");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
 const alphaErr = "must only contain letters";
 const nameLengthErr = "must be between 1 and 10 characters";
-const ageNumericErr = "must be a number";
-const ageValueErr = "must be between 18 and 120";
 const emailErr = "must be a valid email";
-const bioLengthErr = "must be less than 200 characters";
 
 const validateUser = [
   body("firstname")
@@ -42,6 +40,37 @@ const validateUser = [
     .withMessage("Passwords must match")
     .trim(),
 ];
+
+async function indexGet(req, res) {
+  // console.log(req.session);
+  // console.log(req.user);
+  res.render("index", {
+    title: "Home",
+  });
+}
+
+async function loginGet(req, res) {
+  res.render("login", {
+    title: "Log in",
+  });
+}
+
+async function loginPost(req, res, next) {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.redirect("/login");
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect("/");
+    });
+  })(req, res, next);
+}
 
 async function signUpGet(req, res) {
   res.render("signUpForm", {
@@ -78,7 +107,7 @@ const signUpPost = [
       req.body.confirmPassword
     );
 
-    console.log(userDetails);
+    db.addNewUser(userDetails);
 
     res.render("signUpForm", {
       title: "Sign Up",
@@ -87,6 +116,9 @@ const signUpPost = [
 ];
 
 module.exports = {
+  indexGet,
+  loginGet,
+  loginPost,
   signUpGet,
   signUpPost,
 };

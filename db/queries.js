@@ -15,13 +15,21 @@ async function verifyThenSelect(queryString, valuesArray) {
   }
 }
 
-async function addNewUser(firstname, lastname, username, email, password) {
-  const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(password, salt);
+async function addNewUser({ firstname, lastname, username, email, hash }) {
   await verifyThenInsert(
     "INSERT INTO users (firstname, lastname, username, email, hash, member) VALUES ($1, $2, $3, $4, $5, TRUE)",
     [firstname, lastname, username, email, hash]
   );
+}
+
+async function findUserById(id) {
+  const rows = await verifyThenSelect("SELECT * FROM users WHERE id = $1", [
+    id,
+  ]);
+  if (rows.length > 0) {
+    return rows[0];
+  }
+  return null;
 }
 
 async function getAllPosts() {
@@ -51,14 +59,36 @@ async function submitNewPost(userId, title, body) {
   );
 }
 
-async function verifyUser(username, password) {
-  
+async function verifyUser(username, password, done) {
+  try {
+    const rows = verifyThenSelect("SELECT * FROM users WHERE username = $1", [
+      username,
+    ]);
+    const user = rows[0];
+    console.log("rows:", rows, "user:", user);
+    if (!user) {
+      console.log(`${username} does not exist in the database`);
+      return done(null, false, { message: "Incorrect username" });
+    }
+
+    const isValid = bcrypt.compareSync(password, user.hash);
+    if (!isValid) {
+      console.log("wrong password");
+      return done(null, false, { message: "Incorrect password" });
+    } else {
+      return done(null, user);
+    }
+  } catch (err) {
+    return done(err);
+  }
 }
 
 module.exports = {
   addNewUser,
+  findUserById,
   getAllPosts,
   getAllUsers,
   getPostDetails,
   submitNewPost,
+  verifyUser,
 };

@@ -6,54 +6,59 @@
     <%- include("errors.ejs") %>
     <form action="/sign-up" method="post">
       <label for="firstname">
-        First name:
         <input
           type="text"
           name="firstname"
           id="firstname"
           placeholder="between 1 and 10 characters"
+          required
         />
+        <span>First name</span>
       </label>
       <label for="lastname">
-        Last name:
         <input
           type="text"
           name="lastname"
           id="lastname"
           placeholder="between 1 and 10 characters"
+          required
         />
+        <span>Last name</span>
       </label>
       <label for="username">
-        Username:
         <input
           type="text"
           name="username"
           id="username"
           placeholder="between 1 and 10 characters"
+          required
         />
+        <span>Username</span>
       </label>
       <label for="email">
-        eMail address:
-        <input type="email" name="email" id="email" />
+        <input type="email" name="email" id="email" required />
+        <span>email address</span>
       </label>
       <fieldset>
         <label for="password">
-          Password:
           <input
             type="password"
             name="password"
             id="password"
             placeholder="between 6 and 16 characters"
+            required
           />
+          <span>Password</span>
         </label>
         <label for="confirmPassword">
-          Confirm your password:
           <input
             type="password"
             name="confirmPassword"
             id="confirmPassword"
             placeholder="must match the password"
+            required
           />
+          <span>Confirm password</span>
         </label>
       </fieldset>
       <button type="submit">Sign up!</button>

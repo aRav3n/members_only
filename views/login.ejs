@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en-US">
+  <%- include("head") %>
+  <body>
+    <h1>Log in now</h1>
+    <form action="/login" method="post">
+      <fieldset>
+        <label for="username">
+          Username:
+          <input type="text" name="username" id="username" required>
+        </label>
+        <label for="password">
+          Password:
+          <input type="password" name="password" id="password" required>
+        </label>
+      </fieldset>
+      <button type="submit">Log in</button>
+    </form>
+  </body>
+</html>
