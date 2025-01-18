@@ -51,6 +51,10 @@ async function submitNewPost(userId, title, body) {
   );
 }
 
+async function verifyUser(username, password) {
+  
+}
+
 module.exports = {
   addNewUser,
   getAllPosts,

@@ -1,0 +1,10 @@
+<% if (locals.errors) { %>
+  <div class="errors">
+    <h2>Please fix the following errors and sign up again:</h2>
+    <ul>
+      <% errors.forEach((error) => { %>
+      <li><%= error.msg %></li>
+      <% }); %>
+    </ul>
+  </div>
+<% } %>

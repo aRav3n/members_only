@@ -1,0 +1,32 @@
+body {
+  display: grid;
+  justify-content: center;
+}
+
+button {
+  justify-self: center;
+}
+
+.errors {
+  background-color: #ff000072;
+  border-radius: 1rem;
+  margin: 1vh 0;
+
+  padding: 1vh 2vw;
+}
+
+fieldset {
+  display: grid;
+  gap: 2vh;
+}
+
+form {
+  display: grid;
+  gap: 2vh;
+  justify-content: start;
+}
+
+label {
+  display: grid;
+  gap: 1vh;
+}
