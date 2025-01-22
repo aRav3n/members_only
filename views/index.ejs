@@ -1,8 +1,22 @@
 <!doctype html>
 <html lang="en-US">
-  <%- include("head.ejs") %>
+  <%- include("partials/head") %>
   <body>
-    <%- include("header.ejs") %>
-    <h1>Hello there, this is the homepage!</h1>
+    <%- include("partials/header") %>
+    <% if (!user) { %>
+      <h1>Log in to see more details</h1>
+    <% } %>
+    <div class="posts">
+      <% posts.forEach(post => { %>
+        <div>
+          <h2><%= post.title %></h2>
+        <% if (user) { %>
+          <div class="author">by: <%= `${post.firstname} ${post.lastname}, (${post.username})` %></div>
+          <div><%= post.timestamp %></div>
+        <% } %>
+        <div class="postBody"><%= post.body %></div>
+        </div>
+      <% }) %>
+    </div>
   </body>
 </html>

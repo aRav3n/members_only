@@ -50,7 +50,7 @@ async function findUserById(id) {
 }
 
 async function getAllPosts() {
-  const rows = await verifyThenSelect("SELECT * FROM posts");
+  const rows = await verifyThenSelect("SELECT * FROM posts JOIN users ON posts.user_id = users.id");
   return rows;
 }
 

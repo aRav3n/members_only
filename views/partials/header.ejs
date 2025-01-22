@@ -13,6 +13,9 @@
       </form>
     <% } else { %>
       <h2><%= firstname %> ( <%= username %> ) is logged in!</h2>
+      <form action="/new-post" method="get">
+        <button type="submit">Write a new post</button>
+      </form>
       <form action="/logout" method="post">
         <button type="submit">Log out</button>
       </form>

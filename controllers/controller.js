@@ -41,6 +41,23 @@ const validateUser = [
     .trim(),
 ];
 
+const validatePost = [];
+
+function formatDate() {
+  const date = new Date();
+
+  const formattedDate = date.toLocaleString("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  return formattedDate;
+}
+
 async function indexGet(req, res) {
   let user = null;
   let firstname = null;
@@ -50,11 +67,18 @@ async function indexGet(req, res) {
     firstname = user.firstname;
     username = user.username;
   }
+  const posts = await db.getAllPosts();
+  posts.forEach((post) => {
+    const oldTime = post.timestamp;
+    post.timestamp = formatDate(oldTime);
+  });
+  console.log("posts", posts);
   res.render("index", {
     title: "Home",
     user: user,
     firstname: firstname,
     username: username,
+    posts: posts,
   });
 }
 
@@ -101,6 +125,33 @@ async function logoutPost(req, res, next) {
   });
 }
 
+async function newPostGet(req, res, next) {
+  let user = null;
+  let firstname = null;
+  let username = null;
+  if (req.user) {
+    user = req.user;
+    firstname = user.firstname;
+    username = user.username;
+    res.render("newPost", {
+      title: "New Post",
+      user: user,
+      firstname: firstname,
+      username: username,
+    });
+  } else {
+    res.redirect("/");
+  }
+}
+
+async function newPostPost(req, res, next) {
+  const title = req.body.title;
+  const body = req.body.body;
+  const id = req.user.id;
+  db.addNewPost(id, title, body);
+  res.redirect("/");
+}
+
 async function signUpGet(req, res) {
   let user = null;
   let firstname = null;
@@ -132,13 +183,7 @@ const signUpPost = [
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render("signUpForm", {
-        title: "Sign Up",
-        errors: errors.array(),
-        user: user,
-        firstname: firstname,
-        username: username,
-      });
+      return res.status(400).redirect("/sign-up");
     }
     function hashIfPasswordsMatch(password, confirmPassword) {
       const salt = bcrypt.genSaltSync(10);
@@ -161,12 +206,7 @@ const signUpPost = [
 
     db.addNewUser(userDetails);
 
-    res.render("signUpForm", {
-      title: "Sign Up",
-      user: user,
-      firstname: firstname,
-      username: username,
-    });
+    res.redirect("/sign-up");
   },
 ];
 
@@ -175,6 +215,8 @@ module.exports = {
   loginGet,
   loginPost,
   logoutPost,
+  newPostGet,
+  newPostPost,
   signUpGet,
   signUpPost,
 };

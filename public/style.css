@@ -27,7 +27,7 @@ fieldset {
 form {
   display: grid;
   gap: 2vh;
-  justify-content: start;
+  justify-content: center;
   margin: 2vh 1vw;
 }
 
@@ -64,5 +64,39 @@ label {
   border-radius: 0.5rem;
   display: grid;
   gap: 1vh;
+  justify-self: center;
   padding: 0.25rem 0.5rem;
+}
+
+.posts {
+  display: grid;
+  gap: 1vh;
+}
+
+.posts .author {
+  font-weight: bold;
+  justify-self: center;
+}
+
+.posts > div {
+  border: 1px solid #000000;
+  border-radius: 0.25rem;
+  display: grid;
+  gap: 1vh;
+  padding: 0.5rem;
+}
+
+.posts > div > div:nth-last-child(2) {
+  justify-self: center;
+}
+
+.posts h2 {
+  justify-self: center;
+  text-align: center;
+}
+
+textarea {
+  height: max(300px, 50vh);
+  resize: none;
+  width: max(250px, 50vw);
 }

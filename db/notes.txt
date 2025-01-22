@@ -17,6 +17,38 @@ posts
 
 
 *****************
-current error:
+current console:
 *****************
 
+Restarting 'app.js'
+Express app listening on port 3000!
+posts [
+  {
+    id: 1,
+    title: 'Absolutes',
+    timestamp: '01/22/2025, 12:27 PM',
+    body: 'Only a Sith deals in absolutes',
+    user_id: 1,
+    firstname: 'Ben',
+    lastname: 'Kebobi',
+    username: 'Obi-Wan',
+    email: 'b.kenobi@jedicouncil.gov',
+    hash: '$2a$10$Mw7GCA7sFr0C1HtPiQ/XWev.1T8yjb0hFHy6aeRPj0n9avF7FNfJe',
+    member: true,
+    added: 2025-01-22T12:24:23.887Z
+  },
+  {
+    id: 2,
+    title: 'Tosche Station',
+    timestamp: '01/22/2025, 12:27 PM',
+    body: 'A new batch of power converters has just been delivered!',
+    user_id: 2,
+    firstname: 'Luke',
+    lastname: 'Skywalker',
+    username: 'n3wh0pe',
+    email: 'luke@toschestation.com',
+    hash: '$2a$10$Mw7GCA7sFr0C1HtPiQ/XWev.1T8yjb0hFHy6aeRPj0n9avF7FNfJe',
+    member: true,
+    added: 2025-01-22T12:24:23.888Z
+  }
+]
