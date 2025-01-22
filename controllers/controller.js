@@ -72,7 +72,6 @@ async function indexGet(req, res) {
     const oldTime = post.timestamp;
     post.timestamp = formatDate(oldTime);
   });
-  console.log("posts", posts);
   res.render("index", {
     title: "Home",
     user: user,
@@ -183,7 +182,13 @@ const signUpPost = [
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).redirect("/sign-up");
+      return res.status(400).render("signUpForm", {
+        title: "Sign Up",
+        user: user,
+        firstname: firstname,
+        username: username,
+        errors: errors.array(),
+      });
     }
     function hashIfPasswordsMatch(password, confirmPassword) {
       const salt = bcrypt.genSaltSync(10);
@@ -194,6 +199,14 @@ const signUpPost = [
       return false;
     }
 
+    const adminMemberSalt = bcrypt.genSaltSync(10);
+    const memberHash = bcrypt.hashSync("member123", adminMemberSalt);
+    const adminHash = bcrypt.hashSync("admin123", adminMemberSalt);
+    const isMember = bcrypt.compareSync(req.body.member, memberHash);
+    const isAdmin = isMember
+      ? bcrypt.compareSync(req.body.admin, adminHash)
+      : isMember;
+
     const userDetails = {};
     userDetails.firstname = req.body.firstname;
     userDetails.lastname = req.body.lastname;
@@ -203,6 +216,8 @@ const signUpPost = [
       req.body.password,
       req.body.confirmPassword
     );
+    userDetails.member = isMember;
+    userDetails.admin = isAdmin;
 
     db.addNewUser(userDetails);
 

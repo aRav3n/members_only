@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS users (
   username VARCHAR ( 255 ),
   email VARCHAR ( 255 ),
   hash VARCHAR ( 512 ),
-  member BOOLEAN DEFAULT TRUE,
+  member BOOLEAN DEFAULT FALSE,
+  admin BOOLEAN DEFAULT FALSE,
   added TIMESTAMP DEFAULT NOW()
 );
 
@@ -40,6 +41,8 @@ async function addTestUsers() {
       username: "Obi-Wan",
       email: "b.kenobi@jedicouncil.gov",
       hash: hash,
+      member: true,
+      admin: true,
     };
     const luke = {
       firstname: "Luke",
@@ -47,6 +50,8 @@ async function addTestUsers() {
       username: "n3wh0pe",
       email: "luke@toschestation.com",
       hash: hash,
+      member: true,
+      admin: false,
     };
     await query.addNewUser(obiWan);
     await query.addNewUser(luke);

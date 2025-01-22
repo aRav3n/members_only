@@ -25,6 +25,13 @@ fieldset {
 }
 
 form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 2vh 1vw;
+}
+
+form > div {
   display: grid;
   gap: 2vh;
   justify-content: center;

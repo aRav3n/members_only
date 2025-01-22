@@ -6,40 +6,44 @@
     <h1>Sign up now!</h1>
     <%- include("partials/errors") %>
     <form action="/sign-up" method="post">
-      <label for="firstname">
-        <input
-          type="text"
-          name="firstname"
-          id="firstname"
-          placeholder="between 1 and 10 characters"
-          required
-        />
-        <span>First name</span>
-      </label>
-      <label for="lastname">
-        <input
-          type="text"
-          name="lastname"
-          id="lastname"
-          placeholder="between 1 and 10 characters"
-          required
-        />
-        <span>Last name</span>
-      </label>
-      <label for="username">
-        <input
-          type="text"
-          name="username"
-          id="username"
-          placeholder="between 1 and 10 characters"
-          required
-        />
-        <span>Username</span>
-      </label>
-      <label for="email">
-        <input type="email" name="email" id="email" required />
-        <span>email address</span>
-      </label>
+      <div>
+        <label for="firstname">
+          <input
+            type="text"
+            name="firstname"
+            id="firstname"
+            placeholder="between 1 and 10 characters"
+            required
+          />
+          <span>First name</span>
+        </label>
+        <label for="lastname">
+          <input
+            type="text"
+            name="lastname"
+            id="lastname"
+            placeholder="between 1 and 10 characters"
+            required
+          />
+          <span>Last name</span>
+        </label>
+        <label for="username">
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="between 1 and 10 characters"
+            required
+          />
+          <span>Username</span>
+        </label>
+        <label for="email">
+          <input type="email" name="email" id="email" required />
+          <span>email address</span>
+        </label>
+      </div>
+
+      <div>
       <fieldset>
         <label for="password">
           <input
@@ -62,7 +66,16 @@
           <span>Confirm password</span>
         </label>
       </fieldset>
+      <label for="member">
+        <input type="password" name="member" id="member" />
+        <span>Membership password</span>
+      </label>
+      <label for="admin">
+        <input type="password" name="admin" id="admin" />
+        <span>Admin password</span>
+      </label>
       <button type="submit">Sign up!</button>
+      </div>
     </form>
   </body>
 </html>

@@ -27,16 +27,29 @@ async function getUserId(username) {
     "SELECT * FROM users WHERE username LIKE $1",
     [username]
   );
+  if (rows.length === 0) {
+    return null;
+  }
   const user = rows[0];
   const id = user.id;
   return id;
 }
 
-async function addNewUser({ firstname, lastname, username, email, hash }) {
-  await verifyThenInsert(
-    "INSERT INTO users (firstname, lastname, username, email, hash) VALUES ($1, $2, $3, $4, $5)",
-    [firstname, lastname, username, email, hash]
-  );
+async function addNewUser({
+  firstname,
+  lastname,
+  username,
+  email,
+  hash,
+  member,
+  admin,
+}) {
+  if (!getUserId(username)) {
+    await verifyThenInsert(
+      "INSERT INTO users (firstname, lastname, username, email, hash, member, admin) VALUES ($1, $2, $3, $4, $5)",
+      [firstname, lastname, username, email, hash, member, admin]
+    );
+  }
 }
 
 async function findUserById(id) {
@@ -50,7 +63,9 @@ async function findUserById(id) {
 }
 
 async function getAllPosts() {
-  const rows = await verifyThenSelect("SELECT * FROM posts JOIN users ON posts.user_id = users.id");
+  const rows = await verifyThenSelect(
+    "SELECT * FROM posts JOIN users ON posts.user_id = users.id"
+  );
   return rows;
 }
 
