@@ -1,6 +1,6 @@
 const pool = require("./pool");
 const verifyEnvVariablesOk = require("./verifyEnvVariables");
-const query = require("./queries");
+const db = require("./queries");
 const bcrypt = require("bcryptjs");
 
 const SQL = `
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS posts (
 `;
 
 async function addTestUsers() {
-  const users = await query.getAllUsers();
+  const users = await db.getAllUsers();
   if (users.length === 0) {
     console.log("adding test user...");
     const salt = bcrypt.genSaltSync(10);
@@ -53,24 +53,24 @@ async function addTestUsers() {
       member: true,
       admin: false,
     };
-    await query.addNewUser(obiWan);
-    await query.addNewUser(luke);
+    await db.addNewUser(obiWan);
+    await db.addNewUser(luke);
     console.log("...user added");
   }
 }
 
 async function addTestPosts() {
-  const posts = await query.getAllPosts();
+  const posts = await db.getAllPosts();
   if (posts.length === 0) {
     console.log("adding test posts...");
-    const obiWanId = await query.getUserId("Obi-Wan");
-    const lukeId = await query.getUserId("n3wh0pe");
-    await query.addNewPost(
+    const obiWanId = await db.getUserId("Obi-Wan");
+    const lukeId = await db.getUserId("n3wh0pe");
+    await db.addNewPost(
       obiWanId,
       "Absolutes",
       "Only a Sith deals in absolutes"
     );
-    await query.addNewPost(
+    await db.addNewPost(
       lukeId,
       "Tosche Station",
       "A new batch of power converters has just been delivered!"

@@ -45,7 +45,6 @@ async function addNewUser({
   admin,
 }) {
   const userId = await getUserId(username);
-  console.log(userId);
   if (!userId) {
     await verifyThenInsert(
       "INSERT INTO users (firstname, lastname, username, email, hash, member, admin) VALUES ($1, $2, $3, $4, $5, $6, $7)",
