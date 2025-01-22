@@ -25,8 +25,8 @@ fieldset {
 }
 
 form {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  gap: 2vh;
   justify-content: center;
   margin: 2vh 1vw;
 }
@@ -100,6 +100,12 @@ label {
 .posts h2 {
   justify-self: center;
   text-align: center;
+}
+
+.signUpForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
 }
 
 textarea {

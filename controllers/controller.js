@@ -2,6 +2,7 @@ const db = require("../db/queries");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+require("dotenv").config();
 
 const alphaErr = "must only contain letters";
 const nameLengthErr = "must be between 1 and 10 characters";
@@ -41,7 +42,16 @@ const validateUser = [
     .trim(),
 ];
 
-const validatePost = [];
+const validatePost = [
+  body("title")
+    .trim()
+    .isAlphanumeric()
+    .isLength({min: 1})
+    .withMessage("You need to have a title"),
+  body("body")
+    .trim()
+    .isAlphanumeric()
+];
 
 function formatDate() {
   const date = new Date();
@@ -149,13 +159,27 @@ async function newPostGet(req, res, next) {
   }
 }
 
-async function newPostPost(req, res, next) {
-  const title = req.body.title;
-  const body = req.body.body;
-  const id = req.user.id;
-  db.addNewPost(id, title, body);
-  res.redirect("/");
-}
+const newPostPost = [
+  validatePost,
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("newPost", {
+        title: "New Post",
+        user: user,
+        firstname: firstname,
+        username: username,
+        errors: errors,
+      });
+    }
+    const title = req.body.title;
+    const body = req.body.body;
+    const id = req.user.id;
+    db.addNewPost(id, title, body);
+    res.redirect("/");
+  }
+]
+
 
 async function signUpGet(req, res) {
   let user = null;
@@ -206,8 +230,8 @@ const signUpPost = [
     }
 
     const adminMemberSalt = bcrypt.genSaltSync(10);
-    const memberHash = bcrypt.hashSync("member123", adminMemberSalt);
-    const adminHash = bcrypt.hashSync("admin123", adminMemberSalt);
+    const memberHash = bcrypt.hashSync(process.env.MEMBER_PW, adminMemberSalt);
+    const adminHash = bcrypt.hashSync(process.env.ADMIN_PW, adminMemberSalt);
     const isMember = bcrypt.compareSync(req.body.member, memberHash);
     const isAdmin = isMember
       ? bcrypt.compareSync(req.body.admin, adminHash)
