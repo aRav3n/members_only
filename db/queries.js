@@ -54,6 +54,10 @@ async function addNewUser({
   }
 }
 
+async function deletePost(postId) {
+  await verifyThenSelect("DELETE FROM posts WHERE id = $1", [postId]);
+}
+
 async function findUserById(id) {
   const rows = await verifyThenSelect("SELECT * FROM users WHERE id = $1", [
     id,
@@ -118,6 +122,7 @@ async function verifyUser(username, password, done) {
 module.exports = {
   addNewPost,
   addNewUser,
+  deletePost,
   findUserById,
   getAllPosts,
   getAllUsers,

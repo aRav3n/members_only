@@ -15,6 +15,11 @@
           <div><%= post.timestamp %></div>
         <% } %>
         <div class="postBody"><%= post.body %></div>
+        <% if (user && user.admin) { %>
+          <form action="/deletePost/<%= post.id %>" method="post">
+            <button type="submit">Delete this post</button>
+          </form>
+        <% } %>
         </div>
       <% }) %>
     </div>

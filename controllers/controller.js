@@ -58,6 +58,12 @@ function formatDate() {
   return formattedDate;
 }
 
+async function deletePost(req, res, next) {
+  const postId = req.params.postId;
+  db.deletePost(postId);
+  res.redirect("/");
+}
+
 async function indexGet(req, res) {
   let user = null;
   let firstname = null;
@@ -226,6 +232,7 @@ const signUpPost = [
 ];
 
 module.exports = {
+  deletePost,
   indexGet,
   loginGet,
   loginPost,

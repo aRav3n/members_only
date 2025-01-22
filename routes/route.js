@@ -3,6 +3,7 @@ const controller = require("../controllers/controller");
 const router = Router();
 
 router.get("/", controller.indexGet);
+router.post("/deletePost/:postId", controller.deletePost);
 router.get("/login", controller.loginGet);
 router.post("/login", controller.loginPost);
 router.post("/logout", controller.logoutPost);
