@@ -1,8 +1,13 @@
 const pool = require("./pool");
 const verifyEnvVariablesOk = require("./verifyEnvVariables");
 const query = require("./queries");
+const bcrypt = require("bcryptjs");
 
 const SQL = `
+DROP TABLE IF EXISTS posts CASCADE;
+
+DROP TABLE IF EXISTS users CASCADE;
+
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   firstname VARCHAR ( 255 ),
@@ -23,13 +28,49 @@ CREATE TABLE IF NOT EXISTS posts (
 );
 `;
 
-async function haveAtLeastOneUser() {
+async function addTestUsers() {
   const users = await query.getAllUsers();
-  console.log(users);
   if (users.length === 0) {
     console.log("adding test user...");
-    await query.addNewUser("First", "Last", "user", "a@b.com", "123");
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync("123", salt);
+    const obiWan = {
+      firstname: "Ben",
+      lastname: "Kebobi",
+      username: "Obi-Wan",
+      email: "b.kenobi@jedicouncil.gov",
+      hash: hash,
+    };
+    const luke = {
+      firstname: "Luke",
+      lastname: "Skywalker",
+      username: "n3wh0pe",
+      email: "luke@toschestation.com",
+      hash: hash,
+    };
+    await query.addNewUser(obiWan);
+    await query.addNewUser(luke);
     console.log("...user added");
+  }
+}
+
+async function addTestPosts() {
+  const posts = await query.getAllPosts();
+  if (posts.length === 0) {
+    console.log("adding test posts...");
+    const obiWanId = await query.getUserId("Obi-Wan");
+    const lukeId = await query.getUserId("n3wh0pe");
+    await query.addNewPost(
+      obiWanId,
+      "Absolutes",
+      "Only a Sith deals in absolutes"
+    );
+    await query.addNewPost(
+      lukeId,
+      "Tosche Station",
+      "A new batch of power converters has just been delivered!"
+    );
+    console.log("...test posts added");
   }
 }
 
@@ -39,7 +80,8 @@ async function main() {
   console.log("building tables...");
   await pool.query(SQL);
   console.log("...tables built");
-  haveAtLeastOneUser();
+  await addTestUsers();
+  await addTestPosts();
 }
 
 (async () => {

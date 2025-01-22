@@ -20,32 +20,3 @@ posts
 current error:
 *****************
 
-Restarting 'app.js'
-Express app listening on port 3000!
-ReferenceError: /Users/andy/Documents/Work/Dev/TOP/node/members_only/views/signUpForm.ejs:5
-    3|   <%- include("head.ejs") %>
-    4|   <body>
- >> 5|     <%- include("header") %>
-    6|     <h1>Sign up now!</h1>
-    7|     <%- include("errors.ejs") %>
-    8|     <form action="/sign-up" method="post">
-
-/Users/andy/Documents/Work/Dev/TOP/node/members_only/views/header.ejs:6
-    4|   </form>
-    5|   <div>
- >> 6|     <% if (!user) { %>
-    7|       <h2>Sign in or sign up now</h2>
-    8|       <form action="/login" method="get">
-    9|         <button type="submit">Log in</button>
-
-user is not defined
-    at eval ("/Users/andy/Documents/Work/Dev/TOP/node/members_only/views/header.ejs":12:8)
-    at header (/Users/andy/Documents/Work/Dev/TOP/node/members_only/node_modules/ejs/lib/ejs.js:703:17)
-    at include (/Users/andy/Documents/Work/Dev/TOP/node/members_only/node_modules/ejs/lib/ejs.js:701:39)
-    at eval ("/Users/andy/Documents/Work/Dev/TOP/node/members_only/views/signUpForm.ejs":15:17)
-    at signUpForm (/Users/andy/Documents/Work/Dev/TOP/node/members_only/node_modules/ejs/lib/ejs.js:703:17)
-    at tryHandleCache (/Users/andy/Documents/Work/Dev/TOP/node/members_only/node_modules/ejs/lib/ejs.js:274:36)
-    at exports.renderFile [as engine] (/Users/andy/Documents/Work/Dev/TOP/node/members_only/node_modules/ejs/lib/ejs.js:491:10)
-    at View.render (/Users/andy/Documents/Work/Dev/TOP/node/members_only/node_modules/express/lib/view.js:135:8)
-    at tryRender (/Users/andy/Documents/Work/Dev/TOP/node/members_only/node_modules/express/lib/application.js:657:10)
-    at Function.render (/Users/andy/Documents/Work/Dev/TOP/node/members_only/node_modules/express/lib/application.js:609:3)

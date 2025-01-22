@@ -15,9 +15,26 @@ async function verifyThenSelect(queryString, valuesArray) {
   }
 }
 
+async function addNewPost(userId, title, body) {
+  await verifyThenInsert(
+    "INSERT INTO posts (title, body, user_id) VALUES ($1, $2, $3)",
+    [title, body, userId]
+  );
+}
+
+async function getUserId(username) {
+  const rows = await verifyThenSelect(
+    "SELECT * FROM users WHERE username LIKE $1",
+    [username]
+  );
+  const user = rows[0];
+  const id = user.id;
+  return id;
+}
+
 async function addNewUser({ firstname, lastname, username, email, hash }) {
   await verifyThenInsert(
-    "INSERT INTO users (firstname, lastname, username, email, hash, member) VALUES ($1, $2, $3, $4, $5, TRUE)",
+    "INSERT INTO users (firstname, lastname, username, email, hash) VALUES ($1, $2, $3, $4, $5)",
     [firstname, lastname, username, email, hash]
   );
 }
@@ -33,9 +50,7 @@ async function findUserById(id) {
 }
 
 async function getAllPosts() {
-  const rows = await verifyThenSelect(
-    "SELECT title, timestamp, body, user_id FROM posts"
-  );
+  const rows = await verifyThenSelect("SELECT * FROM posts");
   return rows;
 }
 
@@ -84,11 +99,13 @@ async function verifyUser(username, password, done) {
 }
 
 module.exports = {
+  addNewPost,
   addNewUser,
   findUserById,
   getAllPosts,
   getAllUsers,
   getPostDetails,
+  getUserId,
   submitNewPost,
   verifyUser,
 };
