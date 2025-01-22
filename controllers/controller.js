@@ -251,7 +251,7 @@ const signUpPost = [
 
     db.addNewUser(userDetails);
 
-    res.redirect("/sign-up");
+    res.redirect("/login");
   },
 ];
 
